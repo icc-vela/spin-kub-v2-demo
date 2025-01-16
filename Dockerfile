@@ -1,9 +1,12 @@
-FROM golang
+FROM python:3-alpine
 
-ADD . /go/src/spinnaker.io/demo/k8s-demo
+WORKDIR /app
 
-RUN go install spinnaker.io/demo/k8s-demo
+COPY requirements.txt .
+RUN pip install -r requirements.txt
 
-ADD ./content /content
+COPY . .
 
-ENTRYPOINT /go/bin/k8s-demo
+EXPOSE 5000 
+
+CMD ["python", "app.py"]
